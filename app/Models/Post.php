@@ -17,6 +17,11 @@ class Post extends Model
       return $this->hasMany('App\Models\Like');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Modles\Comment');
+    }
+
     public function like_by()
     {
       return Like::where('user_id', \Auth::user()->id)->first();
