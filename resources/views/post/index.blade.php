@@ -40,32 +40,38 @@
   </section>
 
     <!-- 投稿部分 -->
-    @if(count($items) > 0)
-        @foreach($items as $item)
-            <div class="album py-5 bg-light">
-                <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ asset('storage/post_image/' . $item->path) }}">
-                        <div class="card-body">
-                        <p class="card-text">{{ $item->title}}</p>
-                        <p class="card-text">{{ $item->body}}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">編集</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">削除</button>
-                            </div>
-                            <small class="text-muted">{{ $item->created_at}}</small>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        @endforeach
-    @else
-        <div>投稿記事がありません</div>
-    @endif
+  <div class="album py-5 bg-light">
+      <div class="container">
+      <div class="row">
+      @forelse($items as $item)
+          <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+              <a href="{{ route('post.show', [$item->id]) }}">
+                <img src="{{ asset('storage/post_image/' . $item->path) }}" style="height: 225px; width: 100%; display: block;">
+              </a>
+              <div class="card-body">
+              <p class="card-text">{{ $item->user->name }}</p>
+              <p class="card-text">{{ $item->title}}</p>
+              <p class="card-text">{{ $item->body}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">編集</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">削除</button>
+                  </div>
+                  @if ($item->comments->count())
+                      <span class="badge badge-primary">
+                          コメント {{ $item->comments->count() }}件
+                      </span>
+                  @endif
+                  <small class="text-muted">{{ $item->created_at}}</small>
+              </div>
+              </div>
+          </div>
+          </div>
+        @empty
+            <div>投稿記事がありません</div>
+        @endforelse
+      </div>
+    </div>
+  </div>
 @endsection
