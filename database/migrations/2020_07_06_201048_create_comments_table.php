@@ -16,13 +16,14 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('post_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->text('comment');
             $table->timestamps();
 
             $table->foreign('post_id')
                   ->references('id')
                   ->on('posts')
-                  ->onDelete('cascade'); // postが削除されたとき、それに関連するlikeも一気に削除される
+                  ->onDelete('cascade'); // postが削除されたとき、それに関連するCommentも一気に削除される
         });
     }
 
