@@ -7,6 +7,7 @@ use App\Http\Requests\PostRequest;
 
 use App\Models\Post;
 use Image;
+use Auth;
 
 class PostController extends Controller
 {
@@ -18,18 +19,29 @@ class PostController extends Controller
 
     public function index()
     {
-        //postを新しい順で取得する
-        // $items = Post::with('comment')->findOrFail($post_id);
-        $items = Post::orderBy('created_at', 'desc')->get();
-        return view('post.index', ['items' => $items]);
-        // DBから取得した値（$itemの内容）をpost.indexに渡してblade側で使用
-    }
+        $authUser = Auth::user();
+        $items = Post::with('user')->get();
 
-    // 描画はindexでしているので、不要
-    // public function create()
-    // {
-    //     return view('post.create');
-    // }
+        // ↓ この部分
+        // $likes = $items->likes()->where('user_id', Auth::user()->id)->first();
+
+        $likes = $items[0]->likes()->where('user_id', Auth::user()->id)->first();
+        var_dump($likes);
+        $params = [
+            'authUser' => $authUser,
+            'items' => $items,
+
+            // ↓ この部分
+            'likes' => $likes,
+        ];
+        return view('post.index', $params);
+        //いいね
+        // $like = $post->likes()->where('user_id', Auth::user()->id)->first();
+        // //postを新しい順で取得する
+        // $items = Post::orderBy('created_at', 'desc')->get();
+        // return view('post.index', compact('items', 'like'));
+        // // DBから取得した値（$itemの内容）をpost.indexに渡してblade側で使用
+    }
 
     public function store(PostRequest $request)
     {
@@ -52,20 +64,19 @@ class PostController extends Controller
         return redirect('/post')->with('success', '投稿しました！');
     }
 
-    public function show($post_id)
+    public function show($id)
     {
         // DBよりURIパラメータと同じIDを持つPostの情報を取得
         // post->comenntsでリレーションを取得して並び替え
-        $post = Post::findOrFail($post_id);
-        // $post = Post::with('comment')->findOrFail($post_id);
+        $post = Post::findOrFail($id);
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
-        return view('post.show', compact('post', 'comments'));
+        return view('post.show', compact('post', 'comments', 'like'));
     }
 
-    public function edit($post_id)
+    public function edit($id)
     {
         // $post = Post::findOrFail($post_id);
-        $post = Post::with('comment')->findOrFail($post_id);
+        $post = Post::with('comment')->findOrFail($id);
         return view('post.edit', ['post' => $post]);
     }
 

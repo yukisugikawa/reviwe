@@ -58,6 +58,23 @@
                       <button type="button" class="btn btn-sm btn-outline-secondary">編集</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">削除</button>
                   </div>
+                  @if (Auth::check())
+                    @if ($likes)
+                      {{ Form::model($item, array('action' => array('LikesController@destroy', $item->id, $likes->id))) }}
+                        <button type="submit">
+                          <img src="/images/icon_heart_red.svg">
+                          Like {{ $item->likes_count }}
+                        </button>
+                      {!! Form::close() !!}
+                    @else
+                      {{ Form::model($item, array('action' => array('LikesController@store', $item->id))) }}
+                        <button type="submit">
+                          <img src="/images/icon_heart.svg">
+                          Like {{ $item->likes_count }}
+                        </button>
+                      {!! Form::close() !!}
+                    @endif
+                  @endif
                   @if ($item->comments->count())
                       <span class="badge badge-primary">
                           コメント {{ $item->comments->count() }}件

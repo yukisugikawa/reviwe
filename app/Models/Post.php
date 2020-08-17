@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
+use App\Like;
 
 class Post extends Model
 {
@@ -10,12 +12,8 @@ class Post extends Model
         'title',
         'body',
         'path',
+        'user_id',
     ];
-
-    public function likes()
-    {
-      return $this->hasMany('App\Models\Like');
-    }
 
     public function user()
     {
@@ -27,9 +25,15 @@ class Post extends Model
         return $this->hasMany('App\Models\Comment');
     }
 
+    public function likes()
+    {
+      return $this->hasMany('App\Models\Like');
+    }
+
     public function like_by()
     {
-      return Like::where('user_id', \Auth::user()->id)->first();
+      return Like::where('user_id', Auth::user()->id)->first();
       //Likeテーブルのidをログイン中のユーザーのidを取得
+      //ログインしているユーザーのidをlikesテーブルの中から取得
     }
 }

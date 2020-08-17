@@ -49,7 +49,7 @@
                 <!-- コメント欄 -->
                 @forelse($comments as $comment)
                     <div class="border-top p-4">
-                        <p class="mt-2">{{ Auth::user()->name }}</p>
+                        <p class="mt-2">{{ $comment->user->name }}</p>
                         <!-- <p class="mt-2">{{ $post->user->name }}</p> -->
                         <p class="mt-2">{!! nl2br(e($comment->comment)) !!}</p>
                         <div class="d-flex justify-content-between align-items-center">
