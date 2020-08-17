@@ -37,11 +37,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function likes()
-    {
-      return $this->hasMany(Like::class);
-    }
-
     public function posts()
     {
         return $this->hasMany('App\Models\Post');
@@ -52,4 +47,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\comment');
     }
 
+    public function likes()
+    {
+      return $this->hasMany(Like::class);
+    }
 }

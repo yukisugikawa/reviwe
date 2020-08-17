@@ -42,11 +42,11 @@ class CommentController extends Controller
         //post_idを取得して、それらをリレーションしているカラムに挿入
         $comments = new Comment;
         $comments->comment = $request->comment;
-        $comments->user_id = $request->user()->id;//postのuser_id取得
+        $comments->user_id = $request->user()->id;//ログインしているユーザーの名前を取得
         $post = Post::findOrFail($request->post_id);
         $post->comments()->save($comments);
 
-        return redirect()->route('post.show', compact('post'))->with('success', '返信しました');
+        return redirect()->route('post.show', compact('post'))->with('success', 'コメントしました');
     }
 
     /**

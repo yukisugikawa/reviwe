@@ -52,11 +52,11 @@ class PostController extends Controller
         return redirect('/post')->with('success', '投稿しました！');
     }
 
-    public function show($post_id)
+    public function show($id)
     {
         // DBよりURIパラメータと同じIDを持つPostの情報を取得
         // post->comenntsでリレーションを取得して並び替え
-        $post = Post::findOrFail($post_id);
+        $post = Post::findOrFail($id);
         // $post = Post::with('comment')->findOrFail($post_id);
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
         return view('post.show', compact('post', 'comments'));
