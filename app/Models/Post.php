@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
-use App\Like;
+use App\Models\Like;
 
 class Post extends Model
 {
