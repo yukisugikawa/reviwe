@@ -16,8 +16,28 @@
                 <h1 class="h5 mb-4">{{ $post->title }}</h1>
                 <p class="mb-5">{!! nl2br(e($post->body)) !!}</p>
 
+                <!-- いいね機能 -->
+                @if (Auth::check())
+                    @if ($likes)
+                    <!-- いいね取り消しform -->
+                        {{ Form::model($post, array('action' => array('LikesController@destroy', $post->id, $likes->id))) }}
+                        <button type="submit">
+                            <i class="fas fa-heart" style="color:red"></i>
+                            {{ $post->likes_count }}
+                        </button>
+                        {!! Form::close() !!}
+                    @else
+                    <!-- いいね追加form -->
+                        {{ Form::model($post, array('action' => array('LikesController@store', $post->id))) }}
+                        <button type="submit">
+                        <i class="far fa-heart"></i>                            {{ $post->likes_count }}
+                        </button>
+                        {!! Form::close() !!}
+                    @endif
+                @endif
+
                 @if ($comments->count())
-                        コメント {{ $comments->count() }}件
+                    コメント {{ $comments->count() }}件
                 @endif
 
                 <!-- succeseメッセージ -->

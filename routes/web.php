@@ -20,10 +20,11 @@ Route::get('/', function () {
 Route::resource('/post', 'PostController');
 Route::resource('/commnet', 'CommentController');
 
-Route::post('/posts/{post}/likes', 'LikesController@store');
-Route::post('/posts/{post}/likes/{like}', 'LikesController@destroy');
+Route::post('/post/{post}/likes', 'LikesController@store');
+Route::post('/post/{post}/likes/{like}', 'LikesController@destroy');
 
 //ユーザー
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+Auth::routes();

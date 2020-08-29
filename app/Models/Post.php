@@ -33,7 +33,6 @@ class Post extends Model
     public function like_by()
     {
       return Like::where('user_id', Auth::user()->id)->first();
-      //Likeテーブルのidをログイン中のユーザーのidを取得
-      //ログインしているユーザーのidをlikesテーブルの中から取得
+      //Likeテーブルの中にあるuser_id（ログインid）を取得してする
     }
 }

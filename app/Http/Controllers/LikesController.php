@@ -22,15 +22,13 @@ class LikesController extends Controller
 
         $post = Post::findOrFail($post_id);
 
-        return redirect()->action('PostController@index', $post->id);
+        return redirect()->action('PostController@show', $post->id);
     }
 
     public function destroy($post_id, $like_id) {
       $post = Post::findOrFail($post_id);
       $post->like_by()->findOrFail($like_id)->delete();
-      //ログインしているユーザーのidをlikesテーブルの中から取得
-      //likeテーブルのでのログインユーザーのidを照合し、
-
-      return redirect()->action('PostController@index', $post->id);
+      //いいねしたidを所得して、like_idを削除
+      return redirect()->action('PostController@show', $post->id);
     }
 }
