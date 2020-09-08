@@ -19,24 +19,9 @@ class PostController extends Controller
 
     public function index()
     {
-        $authUser = Auth::user();
         $items = Post::with('user')->get();
 
-        // ↓ この部分
-        // $likes = $items->likes()->where('user_id', Auth::user()->id)->first();
-
-        $likes = $items[0]->likes()->where('user_id', Auth::user()->id)->first();
-        var_dump($likes);
-        $params = [
-            'authUser' => $authUser,
-            'items' => $items,
-
-            // ↓ この部分
-            'likes' => $likes,
-        ];
-        return view('post.index', $params);
-        //いいね
-        // $like = $post->likes()->where('user_id', Auth::user()->id)->first();
+        return view('post.index', compact('items'));
         // //postを新しい順で取得する
         // $items = Post::orderBy('created_at', 'desc')->get();
         // return view('post.index', compact('items', 'like'));
@@ -69,8 +54,9 @@ class PostController extends Controller
         // DBよりURIパラメータと同じIDを持つPostの情報を取得
         // post->comenntsでリレーションを取得して並び替え
         $post = Post::findOrFail($id);
+        $likes = $post->likes()->where('user_id', Auth::user()->id)->first();
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
-        return view('post.show', compact('post', 'comments', 'like'));
+        return view('post.show', compact('post', 'comments', 'likes'));
     }
 
     public function edit($id)
