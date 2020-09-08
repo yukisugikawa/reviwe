@@ -30,7 +30,9 @@
                     <!-- いいね追加form -->
                         {{ Form::model($post, array('action' => array('LikesController@store', $post->id))) }}
                         <button type="submit">
-                        <i class="far fa-heart"></i>                            {{ $post->likes_count }}
+                        <i class="far fa-heart">
+                            {{ $post->likes_count }}
+                        </i>
                         </button>
                         {!! Form::close() !!}
                     @endif
