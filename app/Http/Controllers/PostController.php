@@ -54,7 +54,7 @@ class PostController extends Controller
         // DBよりURIパラメータと同じIDを持つPostの情報を取得
         // post->comenntsでリレーションを取得して並び替え
         $post = Post::findOrFail($id);
-        $likes = $post->likes()->where('user_id', Auth::user()->id)->first();
+        // $post = Post::with('comment')->findOrFail($post_id);
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
         return view('post.show', compact('post', 'comments', 'likes'));
     }
