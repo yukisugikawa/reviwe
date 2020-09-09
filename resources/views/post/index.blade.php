@@ -47,7 +47,7 @@
           <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
               <a href="{{ route('post.show', [$item->id]) }}">
-                <img src="{{ asset('storage/post_image/' . $item->path) }}" style="height: 225px; width: 100%; display: block;">
+                <img src="{{ asset('storage/post_image/' . $item->path) }}" class="index-imag">
               </a>
               <div class="card-body">
               <p class="card-text">{{ $item->user->name }}</p>
@@ -58,28 +58,23 @@
                       <button type="button" class="btn btn-sm btn-outline-secondary">編集</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">削除</button>
                   </div>
-                  @if (Auth::check())
-                    @if ($likes)
-                      {{ Form::model($item, array('action' => array('LikesController@destroy', $item->id, $likes->id))) }}
-                        <button type="submit">
-                          <img src="/images/icon_heart_red.svg">
-                          Like {{ $item->likes_count }}
-                        </button>
-                      {!! Form::close() !!}
-                    @else
-                      {{ Form::model($item, array('action' => array('LikesController@store', $item->id))) }}
-                        <button type="submit">
-                          <img src="/images/icon_heart.svg">
-                          Like {{ $item->likes_count }}
-                        </button>
-                      {!! Form::close() !!}
-                    @endif
-                  @endif
-                  @if ($item->comments->count())
-                      <span class="badge badge-primary">
-                          コメント {{ $item->comments->count() }}件
-                      </span>
-                  @endif
+
+                  <!-- コメント -->
+                  <a href="{{ route('post.show', [$item->id]) }}">
+                      <i class="far fa-comment"></i>
+                      @if ($item->comments->count())
+                          {{ $item->comments->count() }}
+                      @endif
+                  </a>
+
+                  <!-- いいね -->
+                  <a href="{{ route('post.show', [$item->id]) }}">
+                      <i class="far fa-heart"></i>
+                      @if ($item->likes->count())
+                          {{ $item->likes->count() }}
+                      @endif
+                  </a>
+
                   <small class="text-muted">{{ $item->created_at}}</small>
               </div>
               </div>
