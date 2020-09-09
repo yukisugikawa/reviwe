@@ -10,7 +10,7 @@
             <div class="border p-4">
 
                 <!-- postの内容 -->
-                <img src="{{ asset('storage/post_image/' . $post->path) }} " style="height: 225px; width: 100%;">
+                <img src="{{ asset('storage/post_image/' . $post->path) }}" class="show-imag">
 
                 <p class="mb-5">{{ $post->user->name }}</p>
                 <h1 class="h5 mb-4">{{ $post->title }}</h1>
